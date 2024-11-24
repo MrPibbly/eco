@@ -168,4 +168,21 @@ public interface Price {
     default void setValue(final double value) {
         // Override when needed.
     }
+	
+    /**
+     * Set the player's balance to a specific amount.
+     *
+     * @param player    The player.
+     * @param newAmount The new balance.
+     */
+    default void setTo(@NotNull final Player player, final double newAmount) {
+        double currentBalance = getValue(player); // Retrieve the current balance
+        double adjustment = newAmount - currentBalance; // Calculate the difference
+
+        if (adjustment > 0) {
+            giveTo(player, adjustment); // Add money
+        } else if (adjustment < 0) {
+            pay(player, -adjustment); // Deduct money (absolute value)
+        }
+    }
 }
